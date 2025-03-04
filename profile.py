@@ -6,7 +6,7 @@ from database import get_db
 from auth import get_current_user
 from fastapi.responses import RedirectResponse
 from pathlib import Path
-from templates import templates
+from templates.templates import templates
 from schemas import UserSchemaOut
 
 
@@ -17,7 +17,7 @@ AVATAR_DIR = 'static/avatars'
 def profile(request: Request, user: UserSchemaOut = Depends(get_current_user)):
     if not user:
         return RedirectResponse(url='/login')
-    return templates.TemplateRespons({'profile.html', {'request': request, 'user': user})
+    return templates.TemplateResponse('profile.html', {'request': request, 'user': user})
 
 @router.post('/profile/avatar')
 def upload_avatar(request: Request, db: Session = Depends(get_db), file: UploadFile = File(...), user: UserSchemaOut = Depends(get_current_user)):

@@ -7,7 +7,7 @@ from models import User
 from schemas import UserSchemaIn, UserSchemaOut
 from passlib.context import CryptContext
 from fastapi.responses import RedirectResponse
-from templates import template
+from templates.templates import templates
 
 router = APIRouter()
 
@@ -18,7 +18,7 @@ def register_form(request: Request):
     return templates.TemplateResponse('register.html', {'request': request})
 
 @router.post('/register')
-def register(request: Request, form_data: UserSchemaIn, db: Session = Depends(get_db)):
+def register(request: Request, form_data: UserSchemaIn = Depends(UserSchemaIn.as_form), db: Session = Depends(get_db)):
     hashed_pwd = pwd_context.hash(form_data.password)
     user = User(username=form_data.username, password=hashed_pwd)
     db.add(user)

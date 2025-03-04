@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Profile: {{ user.username }}</h1>
+    <img src="{{ user.avatar }}" width="100">
+    <form method="post" action="/profile/avatar" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload avatar</button>
+    </form>
+
+{% endblock %}
